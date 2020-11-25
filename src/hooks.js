@@ -66,6 +66,10 @@ export const useInitializeAgora = () => {
         });
       },
     );
+
+    engine.current?.addListener('Error', (error) => {
+      console.log('Error', error);
+    });
   }, []);
 
   const joinChannel = useCallback(async () => {
