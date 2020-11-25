@@ -60,27 +60,16 @@ export const useInitializeAgora = () => {
         console.log('JoinChannelSuccess', channel, uid, elapsed);
 
         setJoinSucceed(true);
+
+        setPeerIds((peerIdsLocal) => {
+          return [...peerIdsLocal, uid];
+        });
       },
     );
   }, []);
 
   const joinChannel = useCallback(async () => {
-    const response = await engine.current?.joinChannel(
-      token,
-      channelName,
-      null,
-      0,
-    );
-
-    console.log('#### response', response);
-
-    // setPeerIds((peerIdsLocal) => {
-    //   if (peerIdsLocal.indexOf(uid) === -1) {
-    //     return [...peerIdsLocal, uid];
-    //   }
-
-    //   return peerIdsLocal;
-    // });
+    await engine.current?.joinChannel(token, channelName, null, 0);
   }, [channelName]);
 
   const leaveChannel = useCallback(async () => {
