@@ -26,16 +26,16 @@ export const useInitializeAgora = () => {
   const [peerIds, setPeerIds] = useState([]);
   const [isMute, setIsMute] = useState(false);
   const [isSpeakerEnable, setIsSpeakerEnable] = useState(true);
-  const engine = useRef(null);
+  const rtcEngine = useRef(null);
 
   const initAgora = useCallback(async () => {
-    engine.current = await RtcEngine.create(appId);
+    rtcEngine.current = await RtcEngine.create(appId);
 
-    await engine.current?.enableAudio();
-    await engine.current?.muteLocalAudioStream(false);
-    await engine.current?.setEnableSpeakerphone(true);
+    await rtcEngine.current?.enableAudio();
+    await rtcEngine.current?.muteLocalAudioStream(false);
+    await rtcEngine.current?.setEnableSpeakerphone(true);
 
-    engine.current?.addListener('UserJoined', (uid, elapsed) => {
+    rtcEngine.current?.addListener('UserJoined', (uid, elapsed) => {
       console.log('UserJoined', uid, elapsed);
 
       setPeerIds((peerIdsLocal) => {
@@ -47,7 +47,7 @@ export const useInitializeAgora = () => {
       });
     });
 
-    engine.current?.addListener('UserOffline', (uid, reason) => {
+    rtcEngine.current?.addListener('UserOffline', (uid, reason) => {
       console.log('UserOffline', uid, reason);
 
       setPeerIds((peerIdsLocal) => {
@@ -55,7 +55,7 @@ export const useInitializeAgora = () => {
       });
     });
 
-    engine.current?.addListener(
+    rtcEngine.current?.addListener(
       'JoinChannelSuccess',
       (channel, uid, elapsed) => {
         console.log('JoinChannelSuccess', channel, uid, elapsed);
@@ -68,34 +68,34 @@ export const useInitializeAgora = () => {
       },
     );
 
-    engine.current?.addListener('Error', (error) => {
+    rtcEngine.current?.addListener('Error', (error) => {
       console.log('Error', error);
     });
   }, []);
 
   const joinChannel = useCallback(async () => {
-    await engine.current?.joinChannel(token, channelName, null, 0);
+    await rtcEngine.current?.joinChannel(token, channelName, null, 0);
   }, [channelName]);
 
   const leaveChannel = useCallback(async () => {
-    await engine.current?.leaveChannel();
+    await rtcEngine.current?.leaveChannel();
 
     setPeerIds([]);
     setJoinSucceed(false);
   }, []);
 
   const toggleIsMute = useCallback(async () => {
-    await engine.current?.muteLocalAudioStream(!isMute);
+    await rtcEngine.current?.muteLocalAudioStream(!isMute);
     setIsMute(!isMute);
   }, [isMute]);
 
   const toggleIsSpeakerEnable = useCallback(async () => {
-    await engine.current?.setEnableSpeakerphone(!isSpeakerEnable);
+    await rtcEngine.current?.setEnableSpeakerphone(!isSpeakerEnable);
     setIsSpeakerEnable(!isSpeakerEnable);
   }, [isSpeakerEnable]);
 
   const destroyAgoraEngine = useCallback(async () => {
-    await engine.current?.destroy();
+    await rtcEngine.current?.destroy();
   }, []);
 
   useEffect(() => {
