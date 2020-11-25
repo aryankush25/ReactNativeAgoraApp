@@ -1,6 +1,8 @@
 import React from 'react';
-import { SafeAreaView, View, Text, TextInput, Button } from 'react-native';
+import { SafeAreaView, View, Text, TextInput } from 'react-native';
 import { useInitializeAgora, useRequestAudioHook } from '../hooks';
+import Button from './Button';
+import styles from '../styles';
 
 const App = () => {
   useRequestAudioHook();
@@ -21,32 +23,45 @@ const App = () => {
 
   return (
     <SafeAreaView>
-      <View>
-        <TextInput
-          onChangeText={(text) => setChannelName(text)}
-          placeholder={'Channel Name'}
-          value={channelName}
-        />
+      <View style={styles.container}>
+        <View style={styles.channelInputContainer}>
+          <Text>Enter Channel Name:</Text>
 
-        <Button
-          onPress={joinSucceed ? leaveChannel : joinChannel}
-          title={`${joinSucceed ? 'Leave' : 'Join'} channel`}
-        />
+          <TextInput
+            style={styles.input}
+            onChangeText={(text) => setChannelName(text)}
+            placeholder={'Channel Name'}
+            value={channelName}
+          />
+        </View>
 
-        <Button onPress={toggleIsMute} title={isMute ? 'UnMute' : 'Mute'} />
+        <View style={styles.joinLeaveButtonContainer}>
+          <Button
+            onPress={joinSucceed ? leaveChannel : joinChannel}
+            title={`${joinSucceed ? 'Leave' : 'Join'} channel`}
+          />
+        </View>
 
-        <Button
-          onPress={toggleEnableSpeaker}
-          title={enableSpeaker ? 'Disable Speaker' : 'Enable Speaker'}
-        />
+        <View style={styles.floatRight}>
+          <Button onPress={toggleIsMute} title={isMute ? 'UnMute' : 'Mute'} />
+        </View>
 
-        {peerIds.map((peerId) => {
-          return (
-            <View key={peerId}>
-              <Text>{`Joined User ${peerId}`}</Text>
-            </View>
-          );
-        })}
+        <View style={styles.floatLeft}>
+          <Button
+            onPress={toggleEnableSpeaker}
+            title={enableSpeaker ? 'Disable Speaker' : 'Enable Speaker'}
+          />
+        </View>
+
+        <View style={styles.usersListContainer}>
+          {peerIds.map((peerId) => {
+            return (
+              <View key={peerId}>
+                <Text>{`Joined User ${peerId}`}</Text>
+              </View>
+            );
+          })}
+        </View>
       </View>
     </SafeAreaView>
   );

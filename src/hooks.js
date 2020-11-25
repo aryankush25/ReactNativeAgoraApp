@@ -65,7 +65,22 @@ export const useInitializeAgora = () => {
   }, []);
 
   const joinChannel = useCallback(async () => {
-    await engine.current?.joinChannel(token, channelName, null, 0);
+    const response = await engine.current?.joinChannel(
+      null,
+      channelName,
+      null,
+      0,
+    );
+
+    console.log('#### response', response);
+
+    // setPeerIds((peerIdsLocal) => {
+    //   if (peerIdsLocal.indexOf(uid) === -1) {
+    //     return [...peerIdsLocal, uid];
+    //   }
+
+    //   return peerIdsLocal;
+    // });
   }, [channelName]);
 
   const leaveChannel = useCallback(async () => {
@@ -75,25 +90,19 @@ export const useInitializeAgora = () => {
     setJoinSucceed(false);
   }, []);
 
-  const toggleIsMute = useCallback(() => {
-    setIsMute((isMuteLocal) => !isMuteLocal);
-  }, []);
+  const toggleIsMute = useCallback(async () => {
+    await engine.current?.muteLocalAudioStream(isMute);
+    setIsMute(!isMute);
+  }, [isMute]);
 
-  const toggleEnableSpeaker = useCallback(() => {
-    setEnableSpeaker((enableSpeakerLocal) => !enableSpeakerLocal);
-  }, []);
+  const toggleEnableSpeaker = useCallback(async () => {
+    await engine.current?.setEnableSpeakerphone(enableSpeaker);
+    setEnableSpeaker(!enableSpeaker);
+  }, [enableSpeaker]);
 
   const destroyAgoraEngine = useCallback(async () => {
     await engine.current?.destroy();
   }, []);
-
-  useEffect(() => {
-    engine.current?.setEnableSpeakerphone(enableSpeaker);
-  }, [enableSpeaker]);
-
-  useEffect(() => {
-    engine.current?.muteLocalAudioStream(isMute);
-  }, [isMute]);
 
   useEffect(() => {
     initAgora();
