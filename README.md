@@ -13,18 +13,18 @@ brew install watchman
 
 sudo gem install cocoapods
 
-git clone https://github.com/glue-labs/fifo-app.git # Clone the project
+git clone https://github.com/aryankush25/ReactNativeAgoraApp.git # Clone the project
 
 ```
 
 ## React Native Installation steps
 
 ```bash
-cd fifo-app # go to app directory
+cd ReactNativeAgoraApp # go to app directory
 
 yarn # Install dependencies
 
-cd ios && pod install && cd .. # Goto ios directory, install pods and go back to main project directory
+npx pod-install  # install pods
 
 yarn start # To run the metro bundler
 
@@ -36,3 +36,4 @@ yarn android # Start app in android
 
 You can also refer the official [React Native docs](https://reactnative.dev/docs/environment-setup) for installation and setup.
 
+For Agora Refer to official [React Native Agora docs](https://docs.agora.io/en/Voice/landing-page?platform=React%20Native).
