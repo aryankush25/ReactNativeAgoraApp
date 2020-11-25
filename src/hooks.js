@@ -25,7 +25,7 @@ export const useInitializeAgora = () => {
   const [joinSucceed, setJoinSucceed] = useState(false);
   const [peerIds, setPeerIds] = useState([]);
   const [isMute, setIsMute] = useState(false);
-  const [enableSpeaker, setEnableSpeaker] = useState(true);
+  const [enableSpeaker, setEnableSpeaker] = useState(false);
   const engine = useRef(null);
 
   const initAgora = useCallback(async () => {
@@ -33,6 +33,7 @@ export const useInitializeAgora = () => {
 
     await engine.current?.enableAudio();
     await engine.current?.setEnableSpeakerphone(true);
+    await engine.current?.muteLocalAudioStream(false);
 
     engine.current?.addListener('UserJoined', (uid, elapsed) => {
       console.log('UserJoined', uid, elapsed);
@@ -84,7 +85,7 @@ export const useInitializeAgora = () => {
   }, []);
 
   const toggleIsMute = useCallback(async () => {
-    await engine.current?.muteLocalAudioStream(isMute);
+    await engine.current?.muteLocalAudioStream(!isMute);
     setIsMute(!isMute);
   }, [isMute]);
 

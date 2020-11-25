@@ -49,7 +49,7 @@ const App = () => {
         <View style={styles.floatLeft}>
           <Button
             onPress={toggleEnableSpeaker}
-            title={enableSpeaker ? 'Disable Speaker' : 'Enable Speaker'}
+            title={enableSpeaker ? 'Enable Speaker' : 'Disable Speaker'}
           />
         </View>
 
