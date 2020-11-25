@@ -9,17 +9,15 @@ const App = () => {
   const {
     channelName,
     isMute,
-    enableSpeaker,
+    isSpeakerEnable,
     joinSucceed,
     peerIds,
     setChannelName,
     joinChannel,
     leaveChannel,
     toggleIsMute,
-    toggleEnableSpeaker,
+    toggleIsSpeakerEnable,
   } = useInitializeAgora();
-
-  console.log('#### peerIds', peerIds);
 
   return (
     <SafeAreaView>
@@ -48,8 +46,8 @@ const App = () => {
 
         <View style={styles.floatLeft}>
           <Button
-            onPress={toggleEnableSpeaker}
-            title={enableSpeaker ? 'Enable Speaker' : 'Disable Speaker'}
+            onPress={toggleIsSpeakerEnable}
+            title={isSpeakerEnable ? 'Disable Speaker' : 'Enable Speaker'}
           />
         </View>
 

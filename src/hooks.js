@@ -25,15 +25,15 @@ export const useInitializeAgora = () => {
   const [joinSucceed, setJoinSucceed] = useState(false);
   const [peerIds, setPeerIds] = useState([]);
   const [isMute, setIsMute] = useState(false);
-  const [enableSpeaker, setEnableSpeaker] = useState(false);
+  const [isSpeakerEnable, setIsSpeakerEnable] = useState(true);
   const engine = useRef(null);
 
   const initAgora = useCallback(async () => {
     engine.current = await RtcEngine.create(appId);
 
     await engine.current?.enableAudio();
-    await engine.current?.setEnableSpeakerphone(true);
     await engine.current?.muteLocalAudioStream(false);
+    await engine.current?.setEnableSpeakerphone(true);
 
     engine.current?.addListener('UserJoined', (uid, elapsed) => {
       console.log('UserJoined', uid, elapsed);
@@ -89,10 +89,10 @@ export const useInitializeAgora = () => {
     setIsMute(!isMute);
   }, [isMute]);
 
-  const toggleEnableSpeaker = useCallback(async () => {
-    await engine.current?.setEnableSpeakerphone(enableSpeaker);
-    setEnableSpeaker(!enableSpeaker);
-  }, [enableSpeaker]);
+  const toggleIsSpeakerEnable = useCallback(async () => {
+    await engine.current?.setEnableSpeakerphone(!isSpeakerEnable);
+    setIsSpeakerEnable(!isSpeakerEnable);
+  }, [isSpeakerEnable]);
 
   const destroyAgoraEngine = useCallback(async () => {
     await engine.current?.destroy();
@@ -109,13 +109,13 @@ export const useInitializeAgora = () => {
   return {
     channelName,
     isMute,
-    enableSpeaker,
+    isSpeakerEnable,
     joinSucceed,
     peerIds,
     setChannelName,
     joinChannel,
     leaveChannel,
     toggleIsMute,
-    toggleEnableSpeaker,
+    toggleIsSpeakerEnable,
   };
 };
