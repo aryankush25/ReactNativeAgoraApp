@@ -66,7 +66,7 @@ export const useInitializeAgora = () => {
 
   const joinChannel = useCallback(async () => {
     const response = await engine.current?.joinChannel(
-      null,
+      token,
       channelName,
       null,
       0,
